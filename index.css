@@ -1,0 +1,230 @@
+body {
+  max-width: 1250px;
+  margin: 0 auto;
+  padding: 20px;
+}
+h3 {
+  text-align: right;
+}
+
+.dashboard-container {
+  display: flex;
+  gap: 2rem;
+  margin-top: 2rem;
+  min-height: 600px;
+}
+
+#graph-section {
+  flex: 1;
+  min-width: 0;
+  height: 600px;
+  padding: 20px;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.controls-section {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.radio-inputs {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #eee;
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(0, 0, 0, 0.06);
+  padding: 0.25rem;
+  width: 100%;
+  font-size: 14px;
+}
+
+.radio-inputs .radio {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.radio-inputs .radio input {
+  display: none;
+}
+
+.radio-inputs .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 0;
+  color: rgba(51, 65, 85, 1);
+  transition: all 0.15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+  background-color: #fff;
+  font-weight: 600;
+}
+
+.tab-panel {
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.hidden {
+  display: none;
+}
+
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  align-items: center;
+}
+
+.input-group input[type="text"] {
+  flex: 0 1 120px;
+  min-width: 80px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.input-group input[type="number"] {
+  flex: 1 1 150px;
+  min-width: 100px;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+button {
+  padding: 8px 16px;
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  white-space: nowrap;
+  min-width: 40px;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+#data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+#data-table th,
+#data-table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+#data-table th {
+  background-color: #f8f9fa;
+  font-weight: bold;
+}
+
+#data-table button {
+  padding: 4px 8px;
+  margin-right: 4px;
+  font-size: 0.9em;
+  min-width: 60px;
+}
+
+#json-editor {
+  width: 100%;
+  min-height: 300px;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: monospace;
+  resize: vertical;
+}
+
+/* 반응형 스타일 */
+@media (max-width: 1024px) {
+  .dashboard-container {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .controls-section {
+    width: 100%;
+  }
+
+  #graph-section {
+    height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group input[type="text"],
+  .input-group input[type="number"] {
+    width: 100%;
+    min-width: 0;
+  }
+
+  #data-table {
+    font-size: 14px;
+  }
+
+  #data-table th,
+  #data-table td {
+    padding: 8px;
+  }
+
+  #graph-section {
+    height: 400px;
+  }
+}
+
+@media (max-width: 480px) {
+  .radio-inputs {
+    font-size: 12px;
+  }
+
+  .tab-panel {
+    padding: 1rem;
+  }
+
+  #json-editor {
+    min-height: 200px;
+  }
+
+  #graph-section {
+    height: 300px;
+  }
+
+  .input-group {
+    flex-wrap: wrap;
+  }
+
+  .input-group input[type="text"],
+  .input-group input[type="number"] {
+    flex: 1 1 100%;
+    min-width: 0;
+  }
+}

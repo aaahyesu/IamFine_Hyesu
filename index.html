@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>IamFine_김혜수</title>
+    <link rel="stylesheet" href="/index.css" />
+  </head>
+  <body>
+    <h3>아이엠파인 SD팀 지원자 김혜수</h3>
+
+    <div class="dashboard-container">
+      <section id="graph-section">
+        <canvas id="myChart"></canvas>
+      </section>
+
+      <div class="controls-section">
+        <div class="radio-inputs">
+          <label class="radio">
+            <input type="radio" name="tab" value="tab-input" checked />
+            <span class="name">값 추가</span>
+          </label>
+          <label class="radio">
+            <input type="radio" name="tab" value="tab-table" />
+            <span class="name">값 편집</span>
+          </label>
+          <label class="radio">
+            <input type="radio" name="tab" value="tab-chart" />
+            <span class="name">값 고급 편집</span>
+          </label>
+        </div>
+
+        <div class="tab-content">
+          <!-- 값 추가 기능 -->
+          <section class="tab-panel" id="tab-input">
+            <div class="input-group">
+              <input type="text" id="data-id" placeholder="ID 입력" />
+              <input type="number" id="data-value" placeholder="Value 입력" />
+              <button id="add-data">추가</button>
+            </div>
+          </section>
+
+          <!-- 표 이용 값 편집 -->
+          <section class="tab-panel hidden" id="tab-table">
+            <table id="data-table">
+              <tr>
+                <th>ID</th>
+                <th>값</th>
+                <th>편집</th>
+              </tr>
+            </table>
+          </section>
+
+          <!-- JSON - 값 고급 편집 -->
+          <section class="tab-panel hidden" id="tab-chart">
+            <textarea
+              id="json-editor"
+              rows="10"
+              placeholder="JSON 형식으로 데이터를 편집하세요"
+            ></textarea>
+          </section>
+        </div>
+      </div>
+    </div>
+    <script src="main.js"></script>
+  </body>
+</html>
