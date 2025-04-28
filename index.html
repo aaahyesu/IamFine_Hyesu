@@ -43,13 +43,24 @@
 
           <!-- 표 이용 값 편집 -->
           <section class="tab-panel hidden" id="tab-table">
-            <table id="data-table">
-              <tr>
-                <th>ID</th>
-                <th>값</th>
-                <th>편집</th>
-              </tr>
-            </table>
+            <div class="table-wrapper">
+              <table id="data-table" class="editable-table">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>값</th>
+                    <th>작업</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- 동적 행 추가되는 부분-->
+                </tbody>
+              </table>
+              <button id="add-row" class="table-btn">+ 새 행 추가</button>
+              <div class="table-footer">
+                <button id="apply-changes" class="primary-btn">등록</button>
+              </div>
+            </div>
           </section>
 
           <!-- JSON - 값 고급 편집 -->
