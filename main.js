@@ -59,11 +59,13 @@ function updateTable() {
 }
 
 function updateJsonView() {
-  document.getElementById("json-editor").value = JSON.stringify(
-    chartData.items,
-    null,
-    2
-  );
+  const jsonStr = JSON.stringify(chartData.items, null, 2);
+  const editor = document.getElementById("json-editor");
+  if (chartData.items.length === 0) {
+    editor.value = ""; // 데이터가 없을 때는 빈 값으로
+  } else {
+    editor.value = jsonStr;
+  }
 }
 
 // 데이터 조작 함수들
