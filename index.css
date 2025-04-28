@@ -125,6 +125,7 @@ button:hover {
   width: 100%;
   border-collapse: collapse;
   margin-top: 1rem;
+  
 }
 
 #data-table th,
@@ -300,8 +301,8 @@ button:hover {
   transition: background-color 0.2s;
 }
 
-.primary-btn:hover {
-  background-color: rgba(0, 0, 0, 0.9);
+  background-color: #2d2d2d;
+  border: 1px solid #404040;
 }
 
 .action-btn {
