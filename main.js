@@ -26,14 +26,13 @@ const myChart = new Chart(ctx, {
 
 // 데이터 저장소
 const chartData = {
-  labels: [],
-  values: [],
+  items: [], // [{id: string, value: number}] 배열 형태
 };
 
 // UI 업데이트 함수들
 function updateChart() {
-  myChart.data.labels = chartData.labels;
-  myChart.data.datasets[0].data = chartData.values;
+  myChart.data.labels = chartData.items.map((item) => item.id);
+  myChart.data.datasets[0].data = chartData.items.map((item) => item.value);
   myChart.update();
   updateTable();
   updateJsonView();
@@ -43,14 +42,14 @@ function updateTable() {
   const tbody = document.querySelector("#data-table tbody");
   tbody.innerHTML = "";
 
-  chartData.labels.forEach((label, index) => {
+  chartData.items.forEach((item, index) => {
     const row = tbody.insertRow();
     row.innerHTML = `
       <td><input type="text" class="label-input" value="${
-        label || ""
+        item.id || ""
       }" data-index="${index}"></td>
       <td><input type="number" class="value-input" value="${
-        chartData.values[index] || 0
+        item.value || 0
       }" data-index="${index}"></td>
       <td>
         <button class="action-btn delete" onclick="removeRow(${index})">삭제</button>
@@ -61,7 +60,7 @@ function updateTable() {
 
 function updateJsonView() {
   document.getElementById("json-editor").value = JSON.stringify(
-    chartData,
+    chartData.items,
     null,
     2
   );
@@ -70,8 +69,7 @@ function updateJsonView() {
 // 데이터 조작 함수들
 function addData(id, value) {
   if (id && !isNaN(value)) {
-    chartData.labels.push(id);
-    chartData.values.push(value);
+    chartData.items.push({ id, value });
     updateChart();
     return true;
   }
@@ -79,14 +77,12 @@ function addData(id, value) {
 }
 
 function removeRow(index) {
-  chartData.labels.splice(index, 1);
-  chartData.values.splice(index, 1);
+  chartData.items.splice(index, 1);
   updateChart();
 }
 
 function addNewRow() {
-  chartData.labels.push("");
-  chartData.values.push(0);
+  chartData.items.push({ id: "", value: 0 });
   updateChart();
 }
 
@@ -126,10 +122,10 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     if (isValid) {
-      chartData.labels = Array.from(labels).map((input) => input.value.trim());
-      chartData.values = Array.from(values).map((input) =>
-        parseFloat(input.value)
-      );
+      chartData.items = Array.from(labels).map((input, index) => ({
+        id: input.value.trim(),
+        value: parseFloat(values[index].value),
+      }));
       updateChart();
     }
   });
@@ -142,11 +138,17 @@ document.addEventListener("DOMContentLoaded", () => {
     try {
       const newData = JSON.parse(e.target.value);
       if (
-        Array.isArray(newData.labels) &&
-        Array.isArray(newData.values) &&
-        newData.labels.length === newData.values.length
+        Array.isArray(newData) &&
+        newData.every(
+          (item) =>
+            typeof item === "object" &&
+            "id" in item &&
+            "value" in item &&
+            typeof item.id === "string" &&
+            !isNaN(parseFloat(item.value))
+        )
       ) {
-        Object.assign(chartData, newData);
+        chartData.items = newData;
         updateChart();
       } else {
         throw new Error("Invalid data format");
