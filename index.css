@@ -241,13 +241,25 @@ button:hover,
   }
 
   .input-group {
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
   }
 
-  .input-group input[type="text"],
-  .input-group input[type="number"] {
-    width: 100%;
+  .input-group input#data-id {
+    flex: 0 0 70px;
+    min-width: 60px;
+    max-width: 80px;
+  }
+
+  .input-group input#data-value {
+    flex: 1 1 auto;
     min-width: 0;
+  }
+
+  .input-group button {
+    flex: 0 0 auto;
+    min-width: 40px;
   }
 
   #data-table {
@@ -282,13 +294,24 @@ button:hover,
   }
 
   .input-group {
-    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .input-group input#data-id {
+    flex: 0 0 60px;
+    min-width: 50px;
+    max-width: 70px;
   }
 
   .input-group input[type="text"],
   .input-group input[type="number"] {
-    flex: 1 1 100%;
-    min-width: 0;
+    padding: 6px;
+    font-size: 14px;
+  }
+
+  .input-group button {
+    padding: 6px 10px;
+    font-size: 14px;
   }
 }
 

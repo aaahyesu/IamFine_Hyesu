@@ -77,6 +77,8 @@ const createChartManager = () => {
           },
           padding: 12,
           displayColors: true,
+          borderColor: "transparent",
+          borderWidth: 0,
         },
       },
       scales: {
