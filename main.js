@@ -25,7 +25,9 @@ const createApp = () => {
           item.value || 0
         }" data-index="${index}"></td>
         <td>
-          <button class="action-btn delete" onclick="app.removeRow(${index})">삭제</button>
+          <button class="action-btn delete" onclick="app.removeRow(${index})">
+            <i class="fas fa-trash-alt"></i>
+          </button>
         </td>
       `;
     });
@@ -82,7 +84,6 @@ const createApp = () => {
       const newItems = Array.from(labels).map((input, index) => ({
         id: input.value.trim(),
         value: parseFloat(values[index].value),
-        color: chartManager.getNextColor(),
       }));
       dataManager.updateItems(newItems);
       updateUI();

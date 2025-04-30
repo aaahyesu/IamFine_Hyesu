@@ -166,10 +166,16 @@ button:hover,
   transform: translateY(-1px);
 }
 .action-btn.delete {
-  background-color: #ff5252;
+  background-color: transparent;
+  color: #ff5252;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 .action-btn.delete:hover {
-  background-color: #ff1744;
+  color: #ff1744;
+  transform: scale(1.1);
 }
 
 #data-table {
@@ -195,8 +201,13 @@ button:hover,
 #data-table button {
   padding: 4px 8px;
   margin-right: 4px;
-  font-size: 0.9em;
-  min-width: 60px;
+  font-size: 1em;
+  font-weight: 800;
+  min-width: 40px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 #json-editor {
@@ -274,6 +285,10 @@ button:hover,
   #graph-section {
     height: 400px;
   }
+
+  #myChart {
+    min-height: 400px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -313,6 +328,10 @@ button:hover,
     padding: 6px 10px;
     font-size: 14px;
   }
+
+  #myChart {
+    min-height: 350px;
+  }
 }
 
 .table-wrapper {
@@ -340,18 +359,24 @@ button:hover,
 }
 
 .editable-table input {
-  width: 100%;
-  padding: 8px;
-  background-color: #2d2d2d;
-  border: 1px solid #404040;
-  border-radius: 4px;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #404040;
   color: #e0e0e0;
+  padding: 4px 6px;
+  font-size: 14px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editable-table td:first-child input {
+  max-width: 60px;
 }
 
 .editable-table input:focus {
   outline: none;
-  border-color: #b388ff;
-  box-shadow: 0 0 0 2px rgba(179, 136, 255, 0.2);
+  border-bottom: 1px solid #b388ff;
+  background-color: #2d2d2d;
 }
 
 .table-footer {
@@ -359,4 +384,52 @@ button:hover,
   justify-content: flex-end;
   gap: 1rem;
   margin-top: 1rem;
+}
+@media (max-width: 768px) {
+  .editable-table th,
+  .editable-table td {
+    padding: 8px 4px;
+  }
+
+  .editable-table td:first-child input {
+    max-width: 50px;
+  }
+
+  .editable-table td:nth-child(2) input {
+    max-width: 120px;
+  }
+
+  .editable-table td:last-child {
+    min-width: 80px;
+  }
+}
+
+@media (max-width: 480px) {
+  .editable-table th,
+  .editable-table td {
+    padding: 6px 3px;
+    font-size: 12px;
+  }
+
+  .editable-table td:first-child input {
+    max-width: 40px;
+  }
+
+  .editable-table td:nth-child(2) input {
+    max-width: 100px;
+  }
+
+  .editable-table td:last-child {
+    min-width: 70px;
+  }
+
+  .editable-table input {
+    font-size: 12px;
+    padding: 3px 4px;
+  }
+}
+
+#myChart {
+  height: 100% !important;
+  min-height: 300px;
 }
