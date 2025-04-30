@@ -57,6 +57,7 @@ const createChartManager = () => {
                   strokeStyle: data.datasets[0].backgroundColor[i],
                   hidden: false,
                   index: i,
+                  fontColor: "#E0E0E0",
                 }));
               }
               return [];
@@ -131,7 +132,7 @@ const createChartManager = () => {
       labels: ["데이터를 추가해주세요"],
       datasets: [
         {
-          label: "안내",
+          label: "입력 값",
           data: [100],
           backgroundColor: gradient,
           borderWidth: 0,

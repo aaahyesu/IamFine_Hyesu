@@ -1,9 +1,9 @@
 const createDataManager = () => {
   let items = [];
 
-  const addItem = (id, value, color) => {
+  const addItem = (id, value) => {
     if (id && !isNaN(value)) {
-      items.push({ id, value, color });
+      items.push({ id, value });
       return true;
     }
     return false;
@@ -13,8 +13,8 @@ const createDataManager = () => {
     items.splice(index, 1);
   };
 
-  const addEmptyItem = (color) => {
-    items.push({ id: "", value: 0, color });
+  const addEmptyItem = () => {
+    items.push({ id: "", value: 0 });
   };
 
   const updateItems = (newItems) => {
