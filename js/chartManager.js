@@ -1,13 +1,13 @@
 // 다크모드용 보라색 계열
 const PURPLE_SHADES = [
-  "#B388FF", // 밝은 보라
-  "#7C4DFF", // 선명한 보라
-  "#651FFF", // 딥 보라
-  "#6200EA", // 진한 보라
-  "#9575CD", // 부드러운 보라
-  "#5E35B1", // 중간 보라
-  "#4527A0", // 깊은 보라
-  "#8559DA", // 라벤더
+  "rgba(179, 136, 255, 0.5)", // 밝은 보라
+  "rgba(124, 77, 255, 0.5)", // 선명한 보라
+  "rgba(101, 31, 255, 0.5)", // 딥 보라
+  "rgba(98, 0, 234, 0.5)", // 진한 보라
+  "rgba(149, 117, 205, 0.5)", // 부드러운 보라
+  "rgba(94, 53, 177, 0.5)", // 중간 보라
+  "rgba(69, 39, 160, 0.5)", // 깊은 보라
+  "rgba(133, 89, 218, 0.5)", // 라벤더
 ];
 
 const createChartManager = () => {
@@ -28,6 +28,10 @@ const createChartManager = () => {
           backgroundColor: [],
           borderWidth: 1,
           borderColor: "#1a1625",
+          borderRadius: 5,
+          borderSkipped: false,
+          barPercentage: 0.8,
+          categoryPercentage: 0.8,
         },
       ],
     },
@@ -121,6 +125,11 @@ const createChartManager = () => {
         duration: 1000,
         easing: "easeInOutQuart",
       },
+      elements: {
+        bar: {
+          borderRadius: 10,
+        },
+      },
     },
   });
 
@@ -161,7 +170,7 @@ const createChartManager = () => {
     chart.data.labels = items.map((item) => item.id);
     chart.data.datasets[0].data = items.map((item) => item.value);
     chart.data.datasets[0].backgroundColor = items.map(
-      (item) => item.color || getNextColor()
+      (item, index) => item.color || PURPLE_SHADES[index % PURPLE_SHADES.length]
     );
     chart.update();
   };
