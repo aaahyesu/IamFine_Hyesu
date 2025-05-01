@@ -50,7 +50,10 @@
           <!-- 값 추가 기능 -->
           <section class="tab-panel" id="tab-input">
             <div class="input-group">
-              <input type="text" id="data-id" placeholder="ID 입력" />
+              <div class="input-wrapper">
+                <input type="text" id="data-id" placeholder="ID 입력" />
+                <span class="error-message"></span>
+              </div>
               <input type="number" id="data-value" placeholder="Value 입력" />
               <button id="add-data">추가</button>
             </div>

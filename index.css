@@ -532,3 +532,32 @@ button:hover,
     font-size: 0.75rem;
   }
 }
+
+/* 에러 메시지 스타일 */
+.input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.input-wrapper input {
+  width: 100%;
+}
+
+.error-message {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  color: #ff5252;
+  font-size: 0.8rem;
+  display: none;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.input-wrapper input.error {
+  border-color: #ff5252;
+}
+
+.input-wrapper input.error + .error-message {
+  display: block;
+}

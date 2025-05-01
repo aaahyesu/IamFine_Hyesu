@@ -18,12 +18,8 @@ const createApp = () => {
     dataManager.getItems().forEach((item, index) => {
       const row = tbody.insertRow();
       row.innerHTML = `
-        <td><input type="text" class="label-input" value="${
-          item.id || ""
-        }" data-index="${index}"></td>
-        <td><input type="number" class="value-input" value="${
-          item.value || 0
-        }" data-index="${index}"></td>
+        <td><input type="text" value="${item.id}" /></td>
+        <td><input type="number" value="${item.value}" /></td>
         <td>
           <button class="action-btn delete" onclick="app.removeRow(${index})">
             <i class="fas fa-trash-alt"></i>
@@ -39,86 +35,185 @@ const createApp = () => {
     editor.value = dataManager.getItems().length === 0 ? "" : jsonStr;
   };
 
-  const addData = () => {
-    const id = document.getElementById("data-id").value;
-    const value = parseFloat(document.getElementById("data-value").value);
+  const validateId = (id) => {
+    const idInput = document.getElementById("data-id");
+    const errorMessage = idInput.nextElementSibling;
 
-    if (dataManager.addItem(id, value, chartManager.getNextColor())) {
-      document.getElementById("data-id").value = "";
-      document.getElementById("data-value").value = "";
+    if (!id) {
+      idInput.classList.add("error");
+      errorMessage.textContent = "ID를 입력해주세요.";
+      return false;
+    }
+
+    if (dataManager.isDuplicateId(id)) {
+      idInput.classList.add("error");
+      errorMessage.textContent = "이미 존재하는 ID입니다.";
+      return false;
+    }
+
+    idInput.classList.remove("error");
+    errorMessage.textContent = "";
+    return true;
+  };
+
+  const handleAddData = () => {
+    const idInput = document.getElementById("data-id");
+    const valueInput = document.getElementById("data-value");
+    const id = idInput.value.trim();
+    const value = parseFloat(valueInput.value);
+
+    if (!validateId(id)) {
+      return;
+    }
+
+    try {
+      dataManager.addItem(id, value);
       updateUI();
-    } else {
-      alert("올바른 ID와 숫자 값을 입력해주세요.");
+      idInput.value = "";
+      valueInput.value = "";
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleUpdateTable = () => {
+    const table = document.getElementById("data-table");
+    const rows = table.getElementsByTagName("tr");
+    const newItems = [];
+
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName("td");
+      const id = cells[0].getElementsByTagName("input")[0].value.trim();
+      const value = parseFloat(cells[1].getElementsByTagName("input")[0].value);
+
+      if (id && !isNaN(value)) {
+        newItems.push({ id, value });
+      }
+    }
+
+    try {
+      dataManager.setItems(newItems);
+      updateUI();
+    } catch (error) {
+      alert(error.message);
     }
   };
 
   const removeRow = (index) => {
-    dataManager.removeItem(index);
-    updateUI();
+    try {
+      dataManager.deleteItem(index);
+      updateUI();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const addNewRow = () => {
-    dataManager.addEmptyItem(chartManager.getNextColor());
-    updateUI();
+    try {
+      // 기존 ID 중에서 가장 큰 숫자를 찾아서 +1
+      const existingIds = dataManager.getItems().map((item) => {
+        const match = item.id.match(/^(\d+)$/);
+        return match ? parseInt(match[1]) : 0;
+      });
+
+      const maxId = Math.max(0, ...existingIds);
+      const newId = (maxId + 1).toString();
+
+      dataManager.addItem(newId, 0);
+      updateUI();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const applyTableChanges = () => {
-    const labels = document.querySelectorAll(".label-input");
-    const values = document.querySelectorAll(".value-input");
+    const table = document.getElementById("data-table");
+    const rows = table.getElementsByTagName("tr");
+    const newItems = [];
 
-    let isValid = true;
-    labels.forEach((label, index) => {
-      if (!label.value.trim()) {
-        alert("ID를 입력해주세요.");
-        isValid = false;
-        return;
-      }
-      if (isNaN(parseFloat(values[index].value))) {
-        alert("올바른 숫자 값을 입력해주세요.");
-        isValid = false;
-        return;
-      }
-    });
+    for (let i = 1; i < rows.length; i++) {
+      const cells = rows[i].getElementsByTagName("td");
+      const id = cells[0].getElementsByTagName("input")[0].value.trim();
+      const value = parseFloat(cells[1].getElementsByTagName("input")[0].value);
 
-    if (isValid) {
-      const newItems = Array.from(labels).map((input, index) => ({
-        id: input.value.trim(),
-        value: parseFloat(values[index].value),
-      }));
-      dataManager.updateItems(newItems);
+      if (id && !isNaN(value)) {
+        newItems.push({ id, value });
+      }
+    }
+
+    try {
+      dataManager.setItems(newItems);
       updateUI();
+    } catch (error) {
+      console.error(error);
     }
   };
 
   const handleJsonEdit = (jsonStr) => {
     try {
       const newData = JSON.parse(jsonStr);
-      if (dataManager.validateJsonData(newData)) {
-        dataManager.updateItems(
-          newData.map((item) => ({
-            ...item,
-            color: chartManager.getNextColor(),
-          }))
+
+      // ID 중복 검사
+      const ids = new Set();
+      const duplicateIds = new Set();
+
+      newData.forEach((item) => {
+        if (ids.has(item.id)) {
+          duplicateIds.add(item.id);
+        }
+        ids.add(item.id);
+      });
+
+      if (duplicateIds.size > 0) {
+        throw new Error(
+          `중복된 ID가 있습니다: ${Array.from(duplicateIds).join(", ")}`
         );
+      }
+
+      if (dataManager.validateJsonData(newData)) {
+        dataManager.setItems(newData);
         updateUI();
       } else {
-        throw new Error("Invalid data format");
+        throw new Error("올바른 JSON 형식이 아닙니다.");
       }
     } catch (error) {
-      alert("올바른 JSON 형식이 아닙니다.");
-      updateJsonView();
+      // 에러 메시지에서 ID 추출
+      const idMatch = error.message.match(/중복된 ID가 있습니다: (.+)/);
+      if (idMatch) {
+        const duplicateIds = idMatch[1].split(", ");
+        const table = document.getElementById("data-table");
+        const rows = table.getElementsByTagName("tr");
+
+        // 중복된 ID를 가진 행에 에러 스타일 적용
+        for (let i = 1; i < rows.length; i++) {
+          const idInput = rows[i]
+            .getElementsByTagName("td")[0]
+            .getElementsByTagName("input")[0];
+          if (duplicateIds.includes(idInput.value.trim())) {
+            idInput.classList.add("error");
+            const errorSpan = document.createElement("span");
+            errorSpan.className = "error-message";
+            errorSpan.textContent = "이미 존재하는 ID입니다.";
+            idInput.parentNode.appendChild(errorSpan);
+          }
+        }
+      }
+      console.error(error);
     }
   };
 
   const initializeEventListeners = () => {
-    document.getElementById("add-data").addEventListener("click", addData);
+    document
+      .getElementById("add-data")
+      .addEventListener("click", handleAddData);
+    document.getElementById("add-row").addEventListener("click", addNewRow);
     document
       .getElementById("apply-changes")
       .addEventListener("click", applyTableChanges);
-    document.getElementById("add-row").addEventListener("click", addNewRow);
-    document
-      .getElementById("json-editor")
-      .addEventListener("change", (e) => handleJsonEdit(e.target.value));
+    document.getElementById("apply-json").addEventListener("click", () => {
+      const jsonStr = document.getElementById("json-editor").value;
+      handleJsonEdit(jsonStr);
+    });
 
     document.querySelectorAll('input[name="tab"]').forEach((radio) => {
       radio.addEventListener("change", (e) => {
@@ -130,6 +225,11 @@ const createApp = () => {
     });
 
     window.addEventListener("resize", chartManager.resize);
+
+    // ID 입력 필드에 실시간 유효성 검사 추가
+    document.getElementById("data-id").addEventListener("input", (e) => {
+      validateId(e.target.value.trim());
+    });
   };
 
   // 초기화
@@ -138,7 +238,7 @@ const createApp = () => {
 
   return {
     removeRow,
-    addData,
+    handleAddData,
     addNewRow,
     applyTableChanges,
     handleJsonEdit,
