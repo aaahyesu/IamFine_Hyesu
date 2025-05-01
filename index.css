@@ -3,7 +3,7 @@ body {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
-  background-color: #121212;
+  background-color: #0c0912;
   color: #e0e0e0;
 }
 
@@ -103,23 +103,23 @@ h3 {
   margin-bottom: 1rem;
   align-items: flex-start;
   flex-wrap: nowrap;
+  width: 100%;
 }
 
 .input-group input#data-id {
-  flex: 0 1 90px;
-  min-width: 60px;
+  flex: 0 1 15%;
+  min-width: 80px;
   max-width: 120px;
 }
 
 .input-group input#data-value {
-  flex: 1 1 180px;
+  flex: 1 1 auto;
   min-width: 100px;
-  max-width: 300px;
 }
 
 .input-group button {
-  min-width: 40px;
   flex: 0 0 auto;
+  min-width: 40px;
 }
 
 .input-group input[type="text"],
@@ -131,6 +131,7 @@ h3 {
   border-radius: 4px;
   color: #e0e0e0;
   transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
 .input-group input[type="text"]:focus,
@@ -162,6 +163,7 @@ h3 {
 .editable-table td {
   padding: 12px;
   text-align: center;
+  font-size: 13px;
   border-bottom: 1px solid #404040;
   border-right: 1px solid #404040;
 }
@@ -322,9 +324,9 @@ button:hover,
   }
 
   .input-group input#data-id {
-    flex: 0 0 70px;
-    min-width: 60px;
-    max-width: 80px;
+    flex: 0 1 20%;
+    min-width: 70px;
+    max-width: 100px;
   }
 
   .input-group input#data-value {
@@ -396,9 +398,9 @@ button:hover,
   }
 
   .input-group input#data-id {
-    flex: 0 0 60px;
-    min-width: 50px;
-    max-width: 70px;
+    flex: 0 1 25%;
+    min-width: 60px;
+    max-width: 80px;
   }
 
   .input-group input[type="text"],

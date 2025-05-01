@@ -15,7 +15,7 @@ const createChartManager = () => {
   const ctx = document.getElementById("myChart").getContext("2d");
 
   // 배경 초기화
-  ctx.canvas.style.backgroundColor = "#121212";
+  ctx.canvas.style.backgroundColor = "#0f0c17";
 
   const chart = new Chart(ctx, {
     type: "bar",
@@ -27,7 +27,7 @@ const createChartManager = () => {
           data: [],
           backgroundColor: [],
           borderWidth: 1,
-          borderColor: "#404040",
+          borderColor: "#1a1625",
         },
       ],
     },
@@ -65,7 +65,7 @@ const createChartManager = () => {
           },
         },
         tooltip: {
-          backgroundColor: "#2D2D2D",
+          backgroundColor: "#1a1625",
           titleColor: "#E0E0E0",
           bodyColor: "#E0E0E0",
           titleFont: {
@@ -85,10 +85,10 @@ const createChartManager = () => {
         y: {
           beginAtZero: true,
           border: {
-            color: "#404040",
+            color: "#1a1625",
           },
           grid: {
-            color: "rgba(255, 255, 255, 0.1)",
+            color: "rgba(255, 255, 255, 0.05)",
             drawBorder: true,
           },
           ticks: {
@@ -102,7 +102,7 @@ const createChartManager = () => {
         },
         x: {
           border: {
-            color: "#404040",
+            color: "#1a1625",
           },
           grid: {
             display: false,
@@ -110,7 +110,7 @@ const createChartManager = () => {
           ticks: {
             color: "#E0E0E0",
             font: {
-              size: 13,
+              size: 16,
               weight: "500",
             },
             padding: 8,
