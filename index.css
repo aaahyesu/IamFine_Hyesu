@@ -1,3 +1,4 @@
+/* 기본 스타일 */
 body {
   max-width: 1200px;
   margin: 0 auto;
@@ -5,11 +6,13 @@ body {
   background-color: #121212;
   color: #e0e0e0;
 }
+
 h3 {
   text-align: right;
   color: #e0e0e0;
 }
 
+/* 대시보드 레이아웃 */
 .dashboard-container {
   display: flex;
   gap: 2rem;
@@ -33,6 +36,7 @@ h3 {
   gap: 1rem;
 }
 
+/* 탭 관련 스타일 */
 .radio-inputs {
   position: relative;
   display: flex;
@@ -73,6 +77,7 @@ h3 {
   font-weight: 600;
 }
 
+/* 탭 패널 공통 스타일 */
 .tab-panel {
   padding: 1rem;
   border: 1px solid #404040;
@@ -81,10 +86,17 @@ h3 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
-.hidden {
+.tab-content .tab-panel.hidden {
   display: none;
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  overflow: hidden;
 }
 
+/* 값 추가 탭 스타일 */
 .input-group {
   display: flex;
   gap: 10px;
@@ -133,81 +145,74 @@ h3 {
   border-color: #ff5252;
 }
 
-.error-message {
-  position: absolute;
-  left: 0;
-  bottom: -20px;
-  font-size: 12px;
-  color: #ff5252;
-  margin-top: 4px;
+/* 값 편집 탭 스타일 */
+.table-wrapper {
+  background-color: #1e1e1e;
+  border-radius: 8px;
 }
 
-button,
-.primary-btn,
-.table-btn,
-.action-btn {
-  padding: 8px 16px;
-  background-color: #8f5cff;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-  min-width: 40px;
-  font-weight: 500;
-  font-size: 1em;
-}
-button:hover,
-.primary-btn:hover,
-.table-btn:hover,
-.action-btn:hover {
-  background-color: #6c2bd7;
-  transform: translateY(-1px);
-}
-.action-btn.delete {
-  background-color: transparent;
-  color: #ff5252;
-  padding: 4px 8px;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.action-btn.delete:hover {
-  color: #ff1744;
-  transform: scale(1.1);
-}
-
-#data-table {
+.editable-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
+  margin-bottom: 1rem;
   color: #e0e0e0;
 }
 
-#data-table th,
-#data-table td {
+.editable-table th,
+.editable-table td {
   padding: 12px;
   text-align: center;
   border-bottom: 1px solid #404040;
+  border-right: 1px solid #404040;
 }
 
-#data-table th {
+.editable-table th:last-child,
+.editable-table td:last-child {
+  border-right: none;
+  width: 60px;
+  min-width: 60px;
+  max-width: 60px;
+  padding: 0;
+}
+
+.editable-table th {
   background-color: #2d2d2d;
-  font-weight: bold;
   color: #e0e0e0;
 }
 
-#data-table button {
-  padding: 4px 8px;
-  margin-right: 4px;
-  font-size: 1em;
-  font-weight: 800;
-  min-width: 40px;
+.editable-table input {
   background-color: transparent;
   border: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
+  border-bottom: 1px solid #404040;
+  color: #e0e0e0;
+  padding: 4px 6px;
+  font-size: 14px;
+  text-align: right;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editable-table td:first-child input {
+  max-width: 60px;
+}
+
+.editable-table input:focus {
+  outline: none;
+  border-bottom: 1px solid #b388ff;
+  background-color: #2d2d2d;
+}
+
+.table-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+/* 값 고급편집 탭 스타일 */
+#tab-chart {
+  display: flex;
+  flex-direction: column;
 }
 
 #json-editor {
@@ -228,6 +233,65 @@ button:hover,
   outline: none;
   border-color: #b388ff;
   box-shadow: 0 0 0 2px rgba(179, 136, 255, 0.2);
+}
+
+#apply-json {
+  align-self: flex-end;
+  margin-top: 1rem;
+}
+
+/* 공통 버튼 스타일 */
+button,
+.primary-btn,
+.table-btn,
+.action-btn {
+  padding: 8px 16px;
+  background-color: #6c2bd7;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  min-width: 40px;
+  font-weight: 500;
+  font-size: 0.8em;
+}
+
+button:hover,
+.primary-btn:hover,
+.table-btn:hover,
+.action-btn:hover {
+  background-color: #5c1bc7;
+  transform: translateY(-1px);
+}
+
+/* 삭제 버튼 스타일 */
+.action-btn.delete {
+  background-color: transparent;
+  color: #ff5252;
+  padding: 4px 8px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.action-btn.delete:hover {
+  color: #ff1744;
+  transform: scale(1.1);
+}
+
+/* 테이블 버튼 스타일 */
+#data-table button {
+  padding: 4px 8px;
+  margin-right: 4px;
+  font-size: 1em;
+  font-weight: 800;
+  min-width: 40px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 /* 반응형 스타일 */
@@ -289,6 +353,25 @@ button:hover,
   #myChart {
     min-height: 400px;
   }
+
+  .editable-table th,
+  .editable-table td {
+    padding: 8px 4px;
+  }
+
+  .editable-table td:first-child input {
+    max-width: 50px;
+  }
+
+  .editable-table td:nth-child(2) input {
+    max-width: 120px;
+  }
+
+  .editable-table td:last-child {
+    min-width: 50px;
+    max-width: 50px;
+    width: 50px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -332,79 +415,7 @@ button:hover,
   #myChart {
     min-height: 350px;
   }
-}
 
-.table-wrapper {
-  background-color: #1e1e1e;
-  border-radius: 8px;
-}
-
-.editable-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-  color: #e0e0e0;
-}
-
-.editable-table th,
-.editable-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #404040;
-}
-
-.editable-table th {
-  background-color: #2d2d2d;
-  color: #e0e0e0;
-}
-
-.editable-table input {
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #404040;
-  color: #e0e0e0;
-  padding: 4px 6px;
-  font-size: 14px;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.editable-table td:first-child input {
-  max-width: 60px;
-}
-
-.editable-table input:focus {
-  outline: none;
-  border-bottom: 1px solid #b388ff;
-  background-color: #2d2d2d;
-}
-
-.table-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-@media (max-width: 768px) {
-  .editable-table th,
-  .editable-table td {
-    padding: 8px 4px;
-  }
-
-  .editable-table td:first-child input {
-    max-width: 50px;
-  }
-
-  .editable-table td:nth-child(2) input {
-    max-width: 120px;
-  }
-
-  .editable-table td:last-child {
-    min-width: 80px;
-  }
-}
-
-@media (max-width: 480px) {
   .editable-table th,
   .editable-table td {
     padding: 6px 3px;
@@ -420,7 +431,9 @@ button:hover,
   }
 
   .editable-table td:last-child {
-    min-width: 70px;
+    min-width: 40px;
+    max-width: 40px;
+    width: 40px;
   }
 
   .editable-table input {
@@ -430,6 +443,6 @@ button:hover,
 }
 
 #myChart {
-  height: 100% !important;
+  height: 100%;
   min-height: 300px;
 }
