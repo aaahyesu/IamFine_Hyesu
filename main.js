@@ -5,6 +5,9 @@ const createApp = () => {
   const chartManager = createChartManager();
   const dataManager = createDataManager();
 
+  // updateTable 바깥에 선언
+  let updateDeleteBtnState = () => {};
+
   const updateUI = () => {
     chartManager.updateChart(dataManager.getItems());
     updateTable();
@@ -12,21 +15,77 @@ const createApp = () => {
   };
 
   const updateTable = () => {
-    const tbody = document.querySelector("#data-table tbody");
-    tbody.innerHTML = "";
+    const data = dataManager.getItems();
+    const table = document.getElementById("data-table");
+    const emptyMsg = document.getElementById("empty-table-message");
+    const deleteBtn = document.getElementById("delete-btn");
+    const applyBtn = document.getElementById("apply-changes");
 
-    dataManager.getItems().forEach((item, index) => {
-      const row = tbody.insertRow();
-      row.innerHTML = `
-        <td><input type="text" value="${item.id}" /></td>
-        <td><input type="number" value="${item.value}" /></td>
-        <td>
-          <button class="action-btn delete" onclick="app.removeRow(${index})">
-            <i class="fas fa-trash-alt"></i>
-          </button>
-        </td>
-      `;
-    });
+    if (data.length === 0) {
+      table.style.display = "none";
+      deleteBtn.style.display = "none";
+      applyBtn.style.display = "none";
+      emptyMsg.style.display = "flex";
+    } else {
+      table.style.display = "";
+      deleteBtn.style.display = "";
+      applyBtn.style.display = "";
+      emptyMsg.style.display = "none";
+      const tbody = document.querySelector("#data-table tbody");
+      tbody.innerHTML = "";
+
+      data.forEach((item, index) => {
+        const row = tbody.insertRow();
+        row.innerHTML = `
+          <td><input type="checkbox" class="row-checkbox" data-index="${index}" /></td>
+          <td><input type="text" value="${item.id}" /></td>
+          <td><input type="number" value="${item.value}" /></td>
+        `;
+      });
+
+      // 삭제 버튼 활성화/비활성화
+      const checkboxes = document.querySelectorAll(".row-checkbox");
+      // 여기서 함수 내용을 할당
+      updateDeleteBtnState = () => {
+        const checked = Array.from(checkboxes).some((cb) => cb.checked);
+        if (checked) {
+          deleteBtn.classList.add("active");
+        } else {
+          deleteBtn.classList.remove("active");
+        }
+      };
+      checkboxes.forEach((cb) =>
+        cb.addEventListener("change", updateDeleteBtnState)
+      );
+      updateDeleteBtnState();
+
+      // 변경 버튼 활성화/비활성화
+      const idInputs = tbody.querySelectorAll("td:nth-child(2) input");
+      const valueInputs = tbody.querySelectorAll("td:nth-child(3) input");
+      let original = data.map((item) => ({ ...item }));
+
+      function updateApplyBtnState() {
+        let changed = false;
+        idInputs.forEach((input, i) => {
+          if (input.value !== original[i].id) changed = true;
+        });
+        valueInputs.forEach((input, i) => {
+          if (parseFloat(input.value) !== original[i].value) changed = true;
+        });
+        if (changed) {
+          applyBtn.classList.add("active");
+        } else {
+          applyBtn.classList.remove("active");
+        }
+      }
+      idInputs.forEach((input) =>
+        input.addEventListener("input", updateApplyBtnState)
+      );
+      valueInputs.forEach((input) =>
+        input.addEventListener("input", updateApplyBtnState)
+      );
+      updateApplyBtnState();
+    }
   };
 
   const updateJsonView = () => {
@@ -83,8 +142,8 @@ const createApp = () => {
 
     for (let i = 1; i < rows.length; i++) {
       const cells = rows[i].getElementsByTagName("td");
-      const id = cells[0].getElementsByTagName("input")[0].value.trim();
-      const value = parseFloat(cells[1].getElementsByTagName("input")[0].value);
+      const id = cells[1].getElementsByTagName("input")[0].value.trim();
+      const value = parseFloat(cells[2].getElementsByTagName("input")[0].value);
 
       if (id && !isNaN(value)) {
         newItems.push({ id, value });
@@ -99,31 +158,33 @@ const createApp = () => {
     }
   };
 
-  const removeRow = (index) => {
-    try {
-      dataManager.deleteItem(index);
-      updateUI();
-    } catch (error) {
-      console.error(error);
+  const removeSelectedRows = () => {
+    const checkboxes = document.querySelectorAll(".row-checkbox:checked");
+    if (checkboxes.length === 0) {
+      alert("삭제할 항목을 선택해주세요.");
+      return;
     }
-  };
 
-  const addNewRow = () => {
-    try {
-      // 기존 ID 중에서 가장 큰 숫자를 찾아서 +1
-      const existingIds = dataManager.getItems().map((item) => {
-        const match = item.id.match(/^(\d+)$/);
-        return match ? parseInt(match[1]) : 0;
+    const indices = Array.from(checkboxes).map((checkbox) =>
+      parseInt(checkbox.dataset.index)
+    );
+
+    // 인덱스를 내림차순으로 정렬하여 뒤에서부터 삭제
+    indices
+      .sort((a, b) => b - a)
+      .forEach((index) => {
+        dataManager.deleteItem(index);
       });
 
-      const maxId = Math.max(0, ...existingIds);
-      const newId = (maxId + 1).toString();
+    updateUI();
+  };
 
-      dataManager.addItem(newId, 0);
-      updateUI();
-    } catch (error) {
-      console.error(error);
-    }
+  const handleSelectAll = (event) => {
+    const checkboxes = document.querySelectorAll(".row-checkbox");
+    checkboxes.forEach((checkbox) => {
+      checkbox.checked = event.target.checked;
+    });
+    updateDeleteBtnState();
   };
 
   const applyTableChanges = () => {
@@ -133,8 +194,8 @@ const createApp = () => {
 
     for (let i = 1; i < rows.length; i++) {
       const cells = rows[i].getElementsByTagName("td");
-      const id = cells[0].getElementsByTagName("input")[0].value.trim();
-      const value = parseFloat(cells[1].getElementsByTagName("input")[0].value);
+      const id = cells[1].getElementsByTagName("input")[0].value.trim();
+      const value = parseFloat(cells[2].getElementsByTagName("input")[0].value);
 
       if (id && !isNaN(value)) {
         newItems.push({ id, value });
@@ -147,6 +208,8 @@ const createApp = () => {
     } catch (error) {
       console.error(error);
     }
+
+    document.getElementById("apply-changes").classList.remove("active");
   };
 
   const handleJsonEdit = (jsonStr) => {
@@ -208,7 +271,6 @@ const createApp = () => {
     document
       .getElementById("add-data")
       .addEventListener("click", handleAddData);
-    document.getElementById("add-row").addEventListener("click", addNewRow);
     document
       .getElementById("apply-changes")
       .addEventListener("click", applyTableChanges);
@@ -216,6 +278,12 @@ const createApp = () => {
       const jsonStr = document.getElementById("json-editor").value;
       handleJsonEdit(jsonStr);
     });
+    document
+      .getElementById("select-all")
+      .addEventListener("change", handleSelectAll);
+    document
+      .getElementById("delete-btn")
+      .addEventListener("click", removeSelectedRows);
 
     document.querySelectorAll('input[name="tab"]').forEach((radio) => {
       radio.addEventListener("change", (e) => {
@@ -223,6 +291,7 @@ const createApp = () => {
           panel.classList.add("hidden");
         });
         document.getElementById(e.target.value).classList.remove("hidden");
+        showWideBtn(e.target.value);
       });
     });
 
@@ -232,16 +301,45 @@ const createApp = () => {
     document.getElementById("data-id").addEventListener("input", (e) => {
       validateId(e.target.value.trim());
     });
+
+    const addBtn = document.getElementById("add-data");
+    const idInput = document.getElementById("data-id");
+    const valueInput = document.getElementById("data-value");
+
+    function checkAddBtnActive() {
+      if (idInput.value.trim() !== "" && valueInput.value.trim() !== "") {
+        addBtn.classList.add("active");
+      } else {
+        addBtn.classList.remove("active");
+      }
+    }
+
+    idInput.addEventListener("input", checkAddBtnActive);
+    valueInput.addEventListener("input", checkAddBtnActive);
+
+    // 추가 후에는 버튼 비활성화
+    addBtn.addEventListener("click", () => {
+      addBtn.classList.remove("active");
+    });
   };
+
+  function showWideBtn(tab) {
+    document.getElementById("apply-changes").style.display =
+      tab === "tab-table" ? "block" : "none";
+    document.getElementById("apply-json").style.display =
+      tab === "tab-chart" ? "block" : "none";
+  }
+
+  // 초기 진입 시
+  showWideBtn(document.querySelector('input[name="tab"]:checked').value);
 
   // 초기화
   initializeEventListeners();
   updateUI();
 
   return {
-    removeRow,
+    removeSelectedRows,
     handleAddData,
-    addNewRow,
     applyTableChanges,
     handleJsonEdit,
   };

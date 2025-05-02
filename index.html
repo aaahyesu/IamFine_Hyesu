@@ -25,9 +25,9 @@
             <i class="fas fa-question-circle"></i>
             <span class="tooltip">
               1. 값 추가: 새로운 데이터를 한 항목씩 추가할 수 있습니다.<br />2.
-              값 편집: 여러 항목을 동시에 추가, 수정 또는 삭제할 수 있습니다.<br />3.
-              값 고급 편집: JSON 형식으로 데이터를 직접 수정할 수
-              있습니다.</span
+              값 편집: 기존 추가 되었던 값을 편집 하거나 삭제 할 수 있습니다.<br />(체크박스를
+              활용해서 값을 선택하고 삭제해보세요)<br />3. 값 고급 편집: JSON
+              형식으로 데이터를 직접 수정할 수 있습니다.</span
             >
           </button>
         </div>
@@ -55,29 +55,38 @@
                 <span class="error-message"></span>
               </div>
               <input type="number" id="data-value" placeholder="Value 입력" />
-              <button id="add-data">추가</button>
+              <button id="add-data" class="btn-shared">추가</button>
             </div>
           </section>
 
           <!-- 표 이용 값 편집 -->
           <section class="tab-panel hidden" id="tab-table">
             <div class="table-wrapper">
+              <!-- 안내 문구 (초기에는 숨김) -->
+              <div
+                id="empty-table-message"
+                class="empty-message"
+                style="display: none"
+              >
+                값 추가에서 값을 추가해주세요
+                <i class="fa-solid fa-face-sad-tear"></i>
+              </div>
+              <!-- 기존 테이블 -->
               <table id="data-table" class="editable-table">
                 <thead>
                   <tr>
+                    <th><input type="checkbox" id="select-all" /></th>
                     <th>ID</th>
-                    <th>값</th>
-                    <th>삭제</th>
+                    <th>Value</th>
                   </tr>
                 </thead>
                 <tbody>
                   <!-- 동적 행 추가되는 부분-->
                 </tbody>
               </table>
-              <button id="add-row" class="table-btn">+ 새 행 추가</button>
-              <div class="table-footer">
-                <button id="apply-changes" class="primary-btn">등록</button>
-              </div>
+              <button id="delete-btn" class="btn-shared delete-btn">
+                삭제
+              </button>
             </div>
           </section>
 
@@ -98,8 +107,11 @@
   }
 ]'
             ></textarea>
-            <button id="apply-json" class="primary-btn">적용</button>
           </section>
+          <!-- 값 편집 -->
+          <button id="apply-changes" class="btn-shared wide-btn">변경</button>
+          <!-- 값 고급 편집 -->
+          <button id="apply-json" class="btn-shared wide-btn">적용</button>
         </div>
       </div>
     </div>
