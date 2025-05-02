@@ -153,51 +153,53 @@ const createApp = () => {
     try {
       const newData = JSON.parse(jsonStr);
 
-      // ID 중복 검사
-      const ids = new Set();
-      const duplicateIds = new Set();
-
-      newData.forEach((item) => {
-        if (ids.has(item.id)) {
-          duplicateIds.add(item.id);
-        }
-        ids.add(item.id);
-      });
-
-      if (duplicateIds.size > 0) {
-        throw new Error(
-          `중복된 ID가 있습니다: ${Array.from(duplicateIds).join(", ")}`
-        );
-      }
-
       if (dataManager.validateJsonData(newData)) {
+        // 중복 ID 검사
+        const ids = new Set();
+        const duplicateIds = new Set();
+        newData.forEach((item) => {
+          if (ids.has(item.id)) {
+            duplicateIds.add(item.id);
+          }
+          ids.add(item.id);
+        });
+
+        if (duplicateIds.size > 0) {
+          const jsonEditor = document.getElementById("json-editor");
+          jsonEditor.classList.add("error");
+
+          let errorDiv = document.getElementById("json-error-message");
+          if (!errorDiv) {
+            errorDiv = document.createElement("div");
+            errorDiv.id = "json-error-message";
+            errorDiv.className = "error-message";
+            jsonEditor.parentNode.insertBefore(
+              errorDiv,
+              jsonEditor.nextSibling
+            );
+          }
+
+          errorDiv.textContent =
+            "중복된 ID가 있습니다: " + Array.from(duplicateIds).join(", ");
+          errorDiv.style.display = "block";
+          errorDiv.style.position = "relative";
+          errorDiv.style.marginTop = "8px";
+          errorDiv.style.color = "red";
+          return;
+        }
+
+        // 성공 시 에러 스타일과 메시지 제거
+        const jsonEditor = document.getElementById("json-editor");
+        jsonEditor.classList.remove("error");
+        const errorDiv = document.getElementById("json-error-message");
+        if (errorDiv) {
+          errorDiv.style.display = "none";
+        }
+
         dataManager.setItems(newData);
         updateUI();
-      } else {
-        throw new Error("올바른 JSON 형식이 아닙니다.");
       }
     } catch (error) {
-      // 에러 메시지에서 ID 추출
-      const idMatch = error.message.match(/중복된 ID가 있습니다: (.+)/);
-      if (idMatch) {
-        const duplicateIds = idMatch[1].split(", ");
-        const table = document.getElementById("data-table");
-        const rows = table.getElementsByTagName("tr");
-
-        // 중복된 ID를 가진 행에 에러 스타일 적용
-        for (let i = 1; i < rows.length; i++) {
-          const idInput = rows[i]
-            .getElementsByTagName("td")[0]
-            .getElementsByTagName("input")[0];
-          if (duplicateIds.includes(idInput.value.trim())) {
-            idInput.classList.add("error");
-            const errorSpan = document.createElement("span");
-            errorSpan.className = "error-message";
-            errorSpan.textContent = "이미 존재하는 ID입니다.";
-            idInput.parentNode.appendChild(errorSpan);
-          }
-        }
-      }
       console.error(error);
     }
   };

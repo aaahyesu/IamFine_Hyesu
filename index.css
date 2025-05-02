@@ -237,6 +237,17 @@ h3 {
   box-shadow: 0 0 0 2px rgba(179, 136, 255, 0.2);
 }
 
+#json-editor.error {
+  border-color: #ff4d4f;
+}
+
+#json-error-message {
+  color: #ff5252;
+  font-size: 0.8rem;
+  margin-top: 8px;
+  display: block;
+}
+
 #apply-json {
   align-self: flex-end;
   margin-top: 1rem;
@@ -544,14 +555,12 @@ button:hover,
 }
 
 .error-message {
-  position: absolute;
-  bottom: -20px;
-  left: 0;
   color: #ff5252;
   font-size: 0.8rem;
   display: none;
   white-space: nowrap;
   overflow: hidden;
+  margin-top: 8px;
 }
 
 .input-wrapper input.error {
