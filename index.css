@@ -282,7 +282,7 @@ button:hover,
 /* 삭제 버튼 스타일 */
 .action-btn.delete {
   background-color: transparent;
-  color: #ff5252;
+  color: #e0e0e0;
   padding: 4px 8px;
   border: none;
   cursor: pointer;
