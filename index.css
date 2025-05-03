@@ -1,4 +1,7 @@
-/* 기본 스타일 */
+/* ==========================================================================
+   1. 기본 레이아웃
+   ========================================================================== */
+
 body {
   max-width: 1200px;
   margin: 0 auto;
@@ -12,7 +15,7 @@ h3 {
   color: #e0e0e0;
 }
 
-/* 대시보드 레이아웃 */
+/* 대시보드 컨테이너 */
 .dashboard-container {
   display: flex;
   gap: 2rem;
@@ -20,6 +23,7 @@ h3 {
   min-height: 600px;
 }
 
+/* 그래프 섹션 */
 #graph-section {
   flex: 1;
   min-width: 0;
@@ -29,6 +33,12 @@ h3 {
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
+#myChart {
+  height: 100%;
+  min-height: 300px;
+}
+
+/* 컨트롤 섹션 */
 .controls-section {
   width: 400px;
   display: flex;
@@ -36,511 +46,11 @@ h3 {
   gap: 1rem;
 }
 
-/* 탭 관련 스타일 */
-.radio-inputs {
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  border-radius: 0.5rem;
-  background-color: #2d2d2d;
-  box-sizing: border-box;
-  box-shadow: 0 0 0px 1px rgba(255, 255, 255, 0.1);
-  padding: 0.25rem;
-  width: 100%;
-  font-size: 14px;
-}
-
-.radio-inputs .radio {
-  flex: 1 1 auto;
-  text-align: center;
-}
-
-.radio-inputs .radio input {
-  display: none;
-}
-
-.radio-inputs .radio .name {
-  display: flex;
-  cursor: pointer;
-  align-items: center;
-  justify-content: center;
-  border-radius: 0.5rem;
-  border: none;
-  padding: 0.5rem 0;
-  color: #a0a0a0;
-  transition: all 0.15s ease-in-out;
-}
-
-.radio-inputs .radio input:checked + .name {
-  background-color: #404040;
-  color: #e0e0e0;
-  font-weight: 600;
-}
-
-/* 탭 패널 공통 스타일 */
-.tab-panel {
-  padding: 1rem;
-  border: 1px solid #404040;
-  border-radius: 8px;
-  background-color: #1e1e1e;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.tab-content .tab-panel.hidden {
-  display: none;
-  visibility: hidden;
-  height: 0;
-  padding: 0;
-  margin: 0;
-  border: none;
-  overflow: hidden;
-}
-
-/* 값 추가 탭 스타일 */
-.input-group {
-  display: flex;
-  gap: 10px;
-  margin-bottom: 1rem;
-  align-items: flex-start;
-  flex-wrap: nowrap;
-  width: 100%;
-}
-
-.input-group input#data-id {
-  flex: 0 1 15%;
-  min-width: 80px;
-  max-width: 120px;
-}
-
-.input-group input#data-value {
-  flex: 1 1 auto;
-  min-width: 100px;
-}
-
-.input-group button {
-  flex: 0 0 auto;
-  min-width: 40px;
-}
-
-.input-group input[type="text"],
-.input-group input[type="number"],
-.btn-shared {
-  padding: 8px 12px;
-  font-size: 0.9rem;
-  border-radius: 4px;
-  border: 1px solid #404040;
-  box-sizing: border-box;
-  line-height: 1.2;
-  background-color: #2d2d2d;
-  color: #e0e0e0;
-  transition: all 0.2s ease;
-}
-
-.input-group input[type="text"]:focus,
-.input-group input[type="number"]:focus {
-  outline: none;
-  border-color: #b388ff;
-  box-shadow: 0 0 0 2px rgba(179, 136, 255, 0.2);
-}
-
-.input-group input[type="text"].error,
-.input-group input[type="number"].error {
-  border-color: #ff5252;
-}
-
-/* 값 편집 탭 스타일 */
-.table-wrapper {
-  background-color: #1e1e1e;
-  border-radius: 8px;
-
-  margin-bottom: 1rem;
-  overflow: hidden;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.editable-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 1rem;
-  color: #e0e0e0;
-}
-
-.editable-table th,
-.editable-table td {
-  padding: 12px;
-  text-align: center;
-  font-size: 13px;
-  border-bottom: 1px solid #404040;
-  border-right: 1px solid #404040;
-}
-
-.editable-table th:first-child,
-.editable-table td:first-child {
-  width: 40px;
-  min-width: 40px;
-  max-width: 40px;
-  padding: 0;
-  text-align: center;
-}
-
-.editable-table th:last-child,
-.editable-table td:last-child {
-  width: 200px;
-  min-width: 100px;
-  max-width: 100%;
-}
-
-.editable-table th:nth-child(2),
-.editable-table td:nth-child(2) {
-  width: 100px;
-  min-width: 100px;
-  max-width: 100px;
-}
-
-.editable-table th {
-  background-color: #2d2d2d;
-  color: #e0e0e0;
-}
-
-.editable-table input {
-  background-color: transparent;
-  border: none;
-  border-bottom: 1px solid #404040;
-  color: #e0e0e0;
-  padding: 4px 6px;
-  font-size: 14px;
-  text-align: right;
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.editable-table input:focus {
-  outline: none;
-  border-bottom: 1px solid #b388ff;
-  background-color: #2d2d2d;
-}
-
-.editable-table input[type="checkbox"] {
-  width: 16px;
-  height: 16px;
-  cursor: pointer;
-}
-
-.editable-table input[type="number"] {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  white-space: nowrap;
-}
-
-.delete-btn {
-  padding: 8px 16px;
-  background-color: #2d2d2d;
-  color: #a0a0a0;
-  border: 1px solid #404040;
-  border-radius: 4px;
-  cursor: not-allowed;
-  opacity: 0.5;
-  transition: all 0.3s ease;
-  float: right;
-  margin-top: 1rem;
-}
-
-.delete-btn.active {
-  opacity: 1;
-  cursor: pointer;
-  background-color: #b388ff;
-  color: #fff;
-  border-color: #b388ff;
-}
-
-.delete-btn.active:hover {
-  background-color: #9c64ff;
-  border-color: #9c64ff;
-}
-
-.delete-btn:not(.active):hover {
-  background-color: #2d2d2d;
-  color: #a0a0a0;
-  border: 1px solid #404040;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.table-footer {
-  display: flex;
-  justify-content: flex-end;
-  gap: 1rem;
-  margin-top: 1rem;
-}
-
-/* 값 고급편집 탭 스타일 */
-#tab-chart {
-  display: flex;
-  flex-direction: column;
-}
-
-#json-editor {
-  width: 100%;
-  max-width: 100%;
-  box-sizing: border-box;
-  min-height: 300px;
-  padding: 12px;
-  background-color: #2d2d2d;
-  border: 1px solid #404040;
-  border-radius: 4px;
-  font-family: monospace;
-  resize: vertical;
-  color: #e0e0e0;
-  margin-bottom: 1.5rem;
-}
-
-#json-editor:focus {
-  outline: none;
-  border-color: #b388ff;
-  box-shadow: 0 0 0 2px rgba(179, 136, 255, 0.2);
-}
-
-#json-editor.error {
-  border-color: #ff4d4f;
-}
-
-#json-error-message {
-  color: #ff5252;
-  font-size: 0.8rem;
-  margin-top: 8px;
-  display: block;
-}
-
-/* 공통 버튼 스타일 */
-.btn-shared {
-  padding: 8px 12px;
-  background-color: #2d2d2d;
-  color: #a0a0a0;
-  border: 1px solid #404040;
-  border-radius: 4px;
-  cursor: not-allowed;
-  opacity: 0.5;
-  font-size: 0.9rem;
-  transition: all 0.3s;
-  min-width: 40px;
-  font-weight: 500;
-}
-
-.btn-shared.active {
-  background-color: #b388ff;
-  color: #fff;
-  border-color: #b388ff;
-  cursor: pointer;
-  opacity: 1;
-}
-
-.btn-shared.active:hover {
-  background-color: #9c64ff;
-  border-color: #9c64ff;
-}
-
-.btn-shared:not(.active):hover {
-  background-color: #2d2d2d;
-  color: #a0a0a0;
-  border: 1px solid #404040;
-  cursor: not-allowed;
-  transform: none;
-}
-
-/* wide-btn: 변경/적용 버튼에 사용, 우선순위 높임 */
-.apply-wrapper .btn-shared.wide-btn,
-#tab-chart .btn-shared.wide-btn {
-  width: 100%;
-  display: block;
-  margin: 0 auto;
-  font-size: 1.1rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  align-self: stretch;
-}
-
-/* 삭제 버튼 위치만 따로 */
-.delete-btn {
-  float: right;
-  margin-top: 1rem;
-}
-
-/* 반응형 스타일 */
-@media (max-width: 1024px) {
-  .dashboard-container {
-    flex-direction: column;
-    min-height: auto;
-  }
-
-  .controls-section {
-    width: 100%;
-  }
-
-  #graph-section {
-    height: 500px;
-  }
-}
-
-@media (max-width: 768px) {
-  body {
-    padding: 10px;
-  }
-
-  .input-group {
-    flex-direction: row;
-    flex-wrap: nowrap;
-    gap: 8px;
-  }
-
-  .input-group input#data-id {
-    flex: 0 1 20%;
-    min-width: 70px;
-    max-width: 100px;
-  }
-
-  .input-group input#data-value {
-    flex: 1 1 auto;
-    min-width: 0;
-  }
-
-  .input-group button {
-    flex: 0 0 auto;
-    min-width: 40px;
-  }
-
-  #data-table {
-    font-size: 14px;
-  }
-
-  #data-table th,
-  #data-table td {
-    padding: 8px;
-  }
-
-  #graph-section {
-    height: 400px;
-  }
-
-  #myChart {
-    min-height: 400px;
-  }
-
-  .editable-table th,
-  .editable-table td {
-    padding: 8px 4px;
-  }
-
-  .editable-table td:first-child input {
-    max-width: 50px;
-  }
-
-  .editable-table td:nth-child(2) input {
-    max-width: 120px;
-  }
-
-  .editable-table td:last-child {
-    min-width: 80px;
-  }
-
-  .editable-table th:last-child,
-  .editable-table td:last-child {
-    min-width: 80px;
-  }
-
-  .editable-table th:nth-child(2),
-  .editable-table td:nth-child(2) {
-    width: 80px;
-    min-width: 80px;
-    max-width: 80px;
-  }
-}
-
-@media (max-width: 480px) {
-  .radio-inputs {
-    font-size: 12px;
-  }
-
-  .tab-panel {
-    padding: 0.75rem;
-  }
-
-  #json-editor {
-    min-height: 200px;
-  }
-
-  #graph-section {
-    height: 300px;
-  }
-
-  .input-group {
-    gap: 6px;
-  }
-
-  .input-group input#data-id {
-    flex: 0 1 25%;
-    min-width: 60px;
-    max-width: 80px;
-  }
-
-  .input-group input[type="text"],
-  .input-group input[type="number"] {
-    padding: 6px;
-    font-size: 14px;
-  }
-
-  .input-group button {
-    padding: 6px 10px;
-    font-size: 14px;
-  }
-
-  #myChart {
-    min-height: 350px;
-  }
-
-  .editable-table th,
-  .editable-table td {
-    padding: 6px 3px;
-    font-size: 12px;
-  }
-
-  .editable-table td:first-child input {
-    max-width: 40px;
-  }
-
-  .editable-table td:nth-child(2) input {
-    max-width: 100px;
-  }
-
-  .editable-table th:last-child,
-  .editable-table td:last-child {
-    min-width: 60px;
-  }
-
-  .editable-table th:nth-child(2),
-  .editable-table td:nth-child(2) {
-    width: 60px;
-    min-width: 60px;
-    max-width: 60px;
-  }
-
-  .editable-table input {
-    font-size: 12px;
-    padding: 3px 4px;
-  }
-}
-
-#myChart {
-  height: 100%;
-  min-height: 300px;
-}
-
-/* 탭 헤더 스타일 */
+/* ==========================================================================
+   2. 탭 컴포넌트
+   ========================================================================== */
+
+/* 탭 헤더 */
 .tab-header {
   display: flex;
   justify-content: flex-end;
@@ -548,6 +58,7 @@ h3 {
   position: relative;
 }
 
+/* 도움말 버튼 */
 .help-btn.icon-btn {
   background: none;
   border: none;
@@ -566,6 +77,7 @@ h3 {
   background-color: transparent;
 }
 
+/* 도움말 툴팁 */
 .help-btn .tooltip {
   position: absolute;
   top: 100%;
@@ -609,29 +121,127 @@ h3 {
   visibility: visible;
 }
 
-@media (max-width: 768px) {
-  .help-btn .tooltip {
-    width: 280px;
-    padding: 10px 14px;
-  }
-}
-
-@media (max-width: 480px) {
-  .help-btn .tooltip {
-    width: 260px;
-    padding: 8px 12px;
-    font-size: 0.75rem;
-  }
-}
-
-/* 에러 메시지 스타일 */
-.input-wrapper {
+/* 탭 라디오 버튼 */
+.radio-inputs {
   position: relative;
-  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  border-radius: 0.5rem;
+  background-color: #2d2d2d;
+  box-sizing: border-box;
+  box-shadow: 0 0 0px 1px rgba(255, 255, 255, 0.1);
+  padding: 0.25rem;
+  width: 100%;
+  font-size: 14px;
 }
 
-.input-wrapper input {
+.radio-inputs .radio {
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.radio-inputs .radio input {
+  display: none;
+}
+
+.radio-inputs .radio .name {
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.5rem;
+  border: none;
+  padding: 0.5rem 0;
+  color: #a0a0a0;
+  transition: all 0.15s ease-in-out;
+}
+
+.radio-inputs .radio input:checked + .name {
+  background-color: #404040;
+  color: #e0e0e0;
+  font-weight: 600;
+}
+
+/* 탭 패널 */
+.tab-panel {
+  padding: 1rem;
+  border: 1px solid #404040;
+  border-radius: 8px;
+  background-color: #1e1e1e;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
   width: 100%;
+  box-sizing: border-box;
+}
+
+.tab-content .tab-panel.hidden {
+  display: none;
+  visibility: hidden;
+  height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   3. 입력 컴포넌트
+   ========================================================================== */
+
+/* 입력 그룹 */
+.input-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 1rem;
+  align-items: flex-start;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.input-group input#data-id {
+  flex: 0 1 15%;
+  min-width: 80px;
+  max-width: 120px;
+}
+
+.input-group input#data-value {
+  flex: 1 1 auto;
+  min-width: 100px;
+  height: 36px;
+}
+
+.input-group button {
+  flex: 0 0 auto;
+  min-width: 40px;
+  height: 36px;
+  padding: 0 12px;
+}
+
+/* 입력 필드 기본 스타일 */
+.input-group input[type="text"],
+.input-group input[type="number"],
+.btn-shared {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  border-radius: 4px;
+  border: 1px solid #404040;
+  box-sizing: border-box;
+  line-height: 1.2;
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+  transition: all 0.2s ease;
+}
+
+.input-group input[type="text"]:focus,
+.input-group input[type="number"]:focus {
+  outline: none;
+  border-color: #b388ff;
+  box-shadow: 0 0 0 2px rgba(179, 136, 255, 0.2);
+}
+
+/* 에러 상태 */
+.input-group input[type="text"].error,
+.input-group input[type="number"].error {
+  border-color: #ff5252;
 }
 
 .error-message {
@@ -643,29 +253,253 @@ h3 {
   margin-top: 8px;
 }
 
-.input-wrapper input.error {
-  border-color: #ff5252;
+.input-wrapper {
+  position: relative;
+  flex: 1;
+}
+
+.input-wrapper input {
+  width: 100%;
 }
 
 .input-wrapper input.error + .error-message {
   display: block;
 }
 
-.apply-wrapper {
+/* ==========================================================================
+   4. 테이블 컴포넌트
+   ========================================================================== */
+
+/* 테이블 래퍼 */
+.table-wrapper {
+  background-color: #1e1e1e;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  overflow: hidden;
   width: 100%;
-  margin-top: 1rem;
+  box-sizing: border-box;
 }
 
-.wide-btn {
+/* 편집 가능한 테이블 */
+.editable-table {
   width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  color: #e0e0e0;
+}
+
+.editable-table th,
+.editable-table td {
+  padding: 12px;
+  text-align: center;
+  font-size: 13px;
+  border-bottom: 1px solid #404040;
+  border-right: 1px solid #404040;
+}
+
+/* 체크박스 열 */
+.editable-table th:first-child,
+.editable-table td:first-child {
+  width: 40px;
+  min-width: 40px;
+  max-width: 40px;
+  padding: 0;
+  text-align: center;
+}
+
+/* ID 열 */
+.editable-table th:nth-child(2),
+.editable-table td:nth-child(2) {
+  width: 100px;
+  min-width: 100px;
+  max-width: 100px;
+}
+
+/* Value 열 */
+.editable-table th:last-child,
+.editable-table td:last-child {
+  width: 200px;
+  min-width: 100px;
+  max-width: 100%;
+}
+
+/* 테이블 헤더 */
+.editable-table th {
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+/* 테이블 입력 필드 */
+.editable-table input {
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #404040;
+  color: #e0e0e0;
+  padding: 4px 6px;
+  font-size: 14px;
+  text-align: right;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editable-table input:focus {
+  outline: none;
+  border-bottom: 1px solid #b388ff;
+  background-color: #2d2d2d;
+}
+
+.editable-table input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
+.editable-table input[type="number"] {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   5. JSON 에디터
+   ========================================================================== */
+
+#tab-chart {
+  display: flex;
+  flex-direction: column;
+}
+
+#json-editor {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  min-height: 300px;
+  padding: 12px;
+  background-color: #2d2d2d;
+  border: 1px solid #404040;
+  border-radius: 4px;
+  font-family: monospace;
+  resize: vertical;
+  color: #e0e0e0;
+  margin-bottom: 1.5rem;
+}
+
+#json-editor:focus {
+  outline: none;
+  border-color: #b388ff;
+  box-shadow: 0 0 0 2px rgba(179, 136, 255, 0.2);
+}
+
+#json-editor.error {
+  border-color: #ff4d4f;
+}
+
+#json-error-message {
+  color: #ff5252;
+  font-size: 0.8rem;
+  margin-top: 8px;
   display: block;
-  margin: 1rem 0;
+}
+
+/* ==========================================================================
+   6. 버튼 컴포넌트
+   ========================================================================== */
+
+/* 기본 버튼 */
+.btn-shared {
+  /* 기본 레이아웃 */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+
+  /* 기본 스타일 */
+  padding: 8px 12px;
+  background-color: #2d2d2d;
+  color: #a0a0a0;
+  border: 1px solid #404040;
+  border-radius: 4px;
+  cursor: not-allowed;
+  opacity: 0.5;
+
+  /* 텍스트 스타일 */
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+
+  /* 기타 */
+  min-width: 40px;
+  transition: all 0.3s ease;
+}
+
+/* 버튼 상태 */
+.btn-shared.active {
+  background-color: #b388ff;
+  color: #fff;
+  border-color: #b388ff;
+  cursor: pointer;
+  opacity: 1;
+}
+
+.btn-shared.active:hover {
+  background-color: #9c64ff;
+  border-color: #9c64ff;
+}
+
+.btn-shared:not(.active):hover {
+  background-color: #2d2d2d;
+  color: #a0a0a0;
+  border: 1px solid #404040;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* 버튼 크기 변형 */
+.btn-shared.btn-sm {
+  height: 36px;
+  padding: 0 12px;
+  font-size: 0.9rem;
+  min-width: 40px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-shared.btn-lg {
+  padding: 12px 16px;
+  font-size: 1rem;
+  min-width: 50px;
+}
+
+/* 버튼 너비 변형 */
+.btn-shared.btn-block {
+  width: 100%;
+  display: flex;
+}
+
+/* wide-btn: 큰 버튼 변형 */
+.btn-shared.wide-btn {
+  width: 100%;
+  display: flex;
+  margin: 0 auto;
+  padding: 12px;
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
-  padding: 10px 12px;
 }
 
+/* 삭제 버튼 */
+.delete-btn {
+  float: right;
+  margin-top: 1rem;
+  height: 36px;
+  padding: 0 16px;
+}
+
+/* 빈 상태 메시지 */
 .empty-message {
   display: flex;
   flex-direction: column;
@@ -684,4 +518,177 @@ h3 {
   font-size: 3rem;
   margin-top: 1rem;
   color: #b388ff;
+}
+
+/* ==========================================================================
+   7. 반응형 스타일
+   ========================================================================== */
+
+/* 데스크톱 - 작은 화면 */
+@media (max-width: 1024px) {
+  .dashboard-container {
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .controls-section {
+    width: 100%;
+  }
+
+  #graph-section {
+    height: 500px;
+  }
+}
+
+/* 태블릿 */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+  }
+
+  /* 입력 그룹 조정 */
+  .input-group {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 8px;
+  }
+
+  .input-group input#data-id {
+    flex: 0 1 20%;
+    min-width: 70px;
+    max-width: 100px;
+  }
+
+  .input-group input#data-value {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  .input-group button {
+    flex: 0 0 auto;
+    min-width: 40px;
+  }
+
+  /* 테이블 조정 */
+  .editable-table th,
+  .editable-table td {
+    padding: 8px 4px;
+  }
+
+  .editable-table td:first-child input {
+    max-width: 50px;
+  }
+
+  .editable-table td:nth-child(2) input {
+    max-width: 120px;
+  }
+
+  .editable-table th:last-child,
+  .editable-table td:last-child {
+    min-width: 80px;
+  }
+
+  .editable-table th:nth-child(2),
+  .editable-table td:nth-child(2) {
+    width: 80px;
+    min-width: 80px;
+    max-width: 80px;
+  }
+
+  /* 그래프 높이 조정 */
+  #graph-section {
+    height: 400px;
+  }
+
+  #myChart {
+    min-height: 400px;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+  /* 폰트 크기 조정 */
+  .radio-inputs {
+    font-size: 12px;
+  }
+
+  /* 패널 패딩 조정 */
+  .tab-panel {
+    padding: 0.75rem;
+  }
+
+  /* JSON 에디터 높이 조정 */
+  #json-editor {
+    min-height: 200px;
+  }
+
+  /* 그래프 높이 조정 */
+  #graph-section {
+    height: 300px;
+  }
+
+  /* 입력 그룹 조정 */
+  .input-group {
+    gap: 6px;
+  }
+
+  .input-group input#data-id {
+    flex: 0 1 25%;
+    min-width: 60px;
+    max-width: 80px;
+  }
+
+  /* 입력 필드와 버튼 크기 조정 */
+  .input-group input[type="text"],
+  .input-group input[type="number"] {
+    height: 32px;
+    padding: 0 8px;
+    font-size: 14px;
+  }
+
+  .input-group button,
+  .btn-shared.btn-sm,
+  .delete-btn {
+    height: 32px;
+    padding: 0 10px;
+    font-size: 14px;
+  }
+
+  /* 테이블 조정 */
+  .editable-table th,
+  .editable-table td {
+    padding: 6px 3px;
+    font-size: 12px;
+  }
+
+  .editable-table td:first-child input {
+    max-width: 40px;
+  }
+
+  .editable-table td:nth-child(2) input {
+    max-width: 100px;
+  }
+
+  .editable-table th:last-child,
+  .editable-table td:last-child {
+    min-width: 60px;
+  }
+
+  .editable-table th:nth-child(2),
+  .editable-table td:nth-child(2) {
+    width: 60px;
+    min-width: 60px;
+    max-width: 60px;
+  }
+
+  .editable-table input {
+    font-size: 12px;
+    padding: 3px 4px;
+  }
+
+  /* 도움말 툴팁 조정 */
+  .help-btn .tooltip {
+    width: 280px;
+    padding: 10px 14px;
+  }
 }
