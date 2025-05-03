@@ -38,7 +38,7 @@ const createApp = () => {
         const row = tbody.insertRow();
         row.innerHTML = `
           <td><input type="checkbox" class="row-checkbox" data-index="${index}" /></td>
-          <td><input type="text" value="${item.id}" /></td>
+          <td><input type="text" value="${item.id}" readonly /></td>
           <td><input type="number" value="${item.value}" /></td>
         `;
       });
@@ -192,8 +192,37 @@ const createApp = () => {
   const handleJsonEdit = (jsonStr) => {
     try {
       const newData = JSON.parse(jsonStr);
+      const currentData = dataManager.getItems();
 
       if (dataManager.validateJsonData(newData)) {
+        // 기존 ID 목록
+        const existingIds = new Set(currentData.map((item) => item.id));
+
+        // 기존 ID가 수정되었는지 확인
+        const hasModifiedExistingId = currentData.some((currentItem) => {
+          const newItem = newData.find((item) => item.id === currentItem.id);
+          // 기존 ID가 새 데이터에 없으면 ID가 수정된 것
+          return !newItem;
+        });
+
+        if (hasModifiedExistingId) {
+          const jsonEditor = document.getElementById("json-editor");
+          jsonEditor.classList.add("error");
+
+          let errorDiv = document.getElementById("json-error-message");
+          if (!errorDiv) {
+            errorDiv = document.createElement("div");
+            errorDiv.id = "json-error-message";
+            errorDiv.className = "error-message";
+            // 에러 메시지를 textarea 바로 다음에 삽입
+            jsonEditor.after(errorDiv);
+          }
+
+          errorDiv.textContent = "기존 데이터의 ID는 수정할 수 없습니다.";
+          errorDiv.style.display = "block";
+          return;
+        }
+
         // 중복 ID 검사
         const ids = new Set();
         const duplicateIds = new Set();
@@ -213,18 +242,13 @@ const createApp = () => {
             errorDiv = document.createElement("div");
             errorDiv.id = "json-error-message";
             errorDiv.className = "error-message";
-            jsonEditor.parentNode.insertBefore(
-              errorDiv,
-              jsonEditor.nextSibling
-            );
+            // 에러 메시지를 textarea 바로 다음에 삽입
+            jsonEditor.after(errorDiv);
           }
 
           errorDiv.textContent =
             "중복된 ID가 있습니다: " + Array.from(duplicateIds).join(", ");
           errorDiv.style.display = "block";
-          errorDiv.style.position = "relative";
-          errorDiv.style.marginTop = "8px";
-          errorDiv.style.color = "red";
           return;
         }
 
