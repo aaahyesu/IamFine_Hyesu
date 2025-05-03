@@ -135,29 +135,6 @@ const createApp = () => {
     }
   };
 
-  const handleUpdateTable = () => {
-    const table = document.getElementById("data-table");
-    const rows = table.getElementsByTagName("tr");
-    const newItems = [];
-
-    for (let i = 1; i < rows.length; i++) {
-      const cells = rows[i].getElementsByTagName("td");
-      const id = cells[1].getElementsByTagName("input")[0].value.trim();
-      const value = parseFloat(cells[2].getElementsByTagName("input")[0].value);
-
-      if (id && !isNaN(value)) {
-        newItems.push({ id, value });
-      }
-    }
-
-    try {
-      dataManager.setItems(newItems);
-      updateUI();
-    } catch (error) {
-      alert(error.message);
-    }
-  };
-
   const removeSelectedRows = () => {
     const checkboxes = document.querySelectorAll(".row-checkbox:checked");
     if (checkboxes.length === 0) {
@@ -291,7 +268,6 @@ const createApp = () => {
           panel.classList.add("hidden");
         });
         document.getElementById(e.target.value).classList.remove("hidden");
-        showWideBtn(e.target.value);
       });
     });
 
@@ -321,17 +297,26 @@ const createApp = () => {
     addBtn.addEventListener("click", () => {
       addBtn.classList.remove("active");
     });
+
+    // JSON 편집기 입력값 변경 시 적용 버튼 활성화
+    document
+      .getElementById("json-editor")
+      .addEventListener("input", function () {
+        const applyBtn = document.getElementById("apply-json");
+        applyBtn.classList.add("active");
+      });
+
+    // JSON 편집기 클릭 시 예시 데이터 자동 입력
+    document
+      .getElementById("json-editor")
+      .addEventListener("focus", function () {
+        if (this.value === "") {
+          this.value = '[\n  {\n    "id": "아이엠",\n    "value": 100\n  }\n ]';
+          // 적용 버튼 활성화
+          document.getElementById("apply-json").classList.add("active");
+        }
+      });
   };
-
-  function showWideBtn(tab) {
-    document.getElementById("apply-changes").style.display =
-      tab === "tab-table" ? "block" : "none";
-    document.getElementById("apply-json").style.display =
-      tab === "tab-chart" ? "block" : "none";
-  }
-
-  // 초기 진입 시
-  showWideBtn(document.querySelector('input[name="tab"]:checked').value);
 
   // 초기화
   initializeEventListeners();

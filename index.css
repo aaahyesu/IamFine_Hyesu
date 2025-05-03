@@ -359,7 +359,6 @@ h3 {
   width: 100%;
   display: block;
   margin: 0 auto;
-  padding-top: 1rem;
   font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -370,18 +369,6 @@ h3 {
 .delete-btn {
   float: right;
   margin-top: 1rem;
-}
-
-/* 기존 버튼 스타일(색상 등)은 btn-shared로 대체, 위치/너비만 남김 */
-.primary-btn,
-.action-btn,
-.table-btn {
-  background: none;
-  color: inherit;
-  border: none;
-  box-shadow: none;
-  padding: 0;
-  min-width: 0;
 }
 
 /* 반응형 스타일 */
@@ -528,10 +515,6 @@ h3 {
 
   .editable-table td:nth-child(2) input {
     max-width: 100px;
-  }
-
-  .editable-table td:last-child {
-    min-width: 60px;
   }
 
   .editable-table th:last-child,
