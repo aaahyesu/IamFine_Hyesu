@@ -10,6 +10,7 @@ const PURPLE_SHADES = [
   "rgba(133, 89, 218, 0.5)", // 라벤더
 ];
 
+// 차트 관리자 객체를 생성하는 함수
 const createChartManager = () => {
   let currentColorIndex = 0;
   const ctx = document.getElementById("myChart").getContext("2d");
@@ -133,7 +134,7 @@ const createChartManager = () => {
     },
   });
 
-  // 빈 상태일 때 표시할 기본 데이터
+  // 빈 상태일 때 표시할 기본 데이터를 설정하는 함수
   const showEmptyState = () => {
     const gradient = ctx.createLinearGradient(0, 0, 0, 400);
     gradient.addColorStop(0, "rgba(179, 136, 255, 0.08)");
@@ -154,12 +155,14 @@ const createChartManager = () => {
     chart.update();
   };
 
+  // 다음 색상을 반환하는 함수
   const getNextColor = () => {
     const color = PURPLE_SHADES[currentColorIndex];
     currentColorIndex = (currentColorIndex + 1) % PURPLE_SHADES.length;
     return color;
   };
 
+  // 차트를 현재 데이터로 갱신하는 함수
   const updateChart = (items) => {
     if (!items || items.length === 0) {
       showEmptyState();
@@ -178,6 +181,7 @@ const createChartManager = () => {
   // 초기 빈 상태 표시
   showEmptyState();
 
+  // 차트 크기를 조정하는 함수
   const resize = () => {
     chart.resize();
   };
