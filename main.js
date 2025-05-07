@@ -1,19 +1,22 @@
 import createChartManager from "./js/chartManager.js";
 import createDataManager from "./js/dataManager.js";
 
+// 앱 전체를 초기화하고 주요 기능을 관리하는 함수
 const createApp = () => {
   const chartManager = createChartManager();
   const dataManager = createDataManager();
 
-  // updateTable 바깥에 선언
+  // 삭제 버튼 활성화 상태를 갱신하는 함수 (updateTable 내부에서 할당)
   let updateDeleteBtnState = () => {};
 
+  // UI 전체(차트, 테이블, JSON 뷰)를 갱신하는 함수
   const updateUI = () => {
     chartManager.updateChart(dataManager.getItems());
     updateTable();
     updateJsonView();
   };
 
+  // 테이블을 현재 데이터로 갱신하고, 각종 버튼 상태를 관리하는 함수
   const updateTable = () => {
     const data = dataManager.getItems();
     const table = document.getElementById("data-table");
@@ -64,7 +67,8 @@ const createApp = () => {
       const valueInputs = tbody.querySelectorAll("td:nth-child(3) input");
       let original = data.map((item) => ({ ...item }));
 
-      function updateApplyBtnState() {
+      // 변경 버튼 활성화/비활성화 상태를 갱신하는 내부 함수
+      const updateApplyBtnState = () => {
         let changed = false;
         idInputs.forEach((input, i) => {
           if (input.value !== original[i].id) changed = true;
@@ -77,7 +81,7 @@ const createApp = () => {
         } else {
           applyBtn.classList.remove("active");
         }
-      }
+      };
       idInputs.forEach((input) =>
         input.addEventListener("input", updateApplyBtnState)
       );
@@ -88,12 +92,14 @@ const createApp = () => {
     }
   };
 
+  // JSON 에디터에 현재 데이터를 표시하는 함수
   const updateJsonView = () => {
     const jsonStr = JSON.stringify(dataManager.getItems(), null, 2);
     const editor = document.getElementById("json-editor");
     editor.value = dataManager.getItems().length === 0 ? "" : jsonStr;
   };
 
+  // ID 입력값의 유효성을 검사하는 함수 (중복/공백 등)
   const validateId = (id) => {
     const idInput = document.getElementById("data-id");
     const errorMessage = idInput.nextElementSibling;
@@ -115,6 +121,7 @@ const createApp = () => {
     return true;
   };
 
+  // 입력 폼에서 데이터 추가를 처리하는 함수
   const handleAddData = () => {
     const idInput = document.getElementById("data-id");
     const valueInput = document.getElementById("data-value");
@@ -135,6 +142,7 @@ const createApp = () => {
     }
   };
 
+  // 선택된 테이블 행(데이터)을 삭제하는 함수
   const removeSelectedRows = () => {
     const checkboxes = document.querySelectorAll(".row-checkbox:checked");
     if (checkboxes.length === 0) {
@@ -156,6 +164,7 @@ const createApp = () => {
     updateUI();
   };
 
+  // 전체 선택 체크박스 변경 시 각 행 체크박스 상태를 동기화하는 함수
   const handleSelectAll = (event) => {
     const checkboxes = document.querySelectorAll(".row-checkbox");
     checkboxes.forEach((checkbox) => {
@@ -164,6 +173,7 @@ const createApp = () => {
     updateDeleteBtnState();
   };
 
+  // 테이블에서 값 변경 후 적용 버튼 클릭 시 데이터 반영 함수
   const applyTableChanges = () => {
     const table = document.getElementById("data-table");
     const rows = table.getElementsByTagName("tr");
@@ -189,6 +199,7 @@ const createApp = () => {
     document.getElementById("apply-changes").classList.remove("active");
   };
 
+  // JSON 에디터에서 데이터 적용 시 유효성 검사 및 반영 함수
   const handleJsonEdit = (jsonStr) => {
     try {
       const newData = JSON.parse(jsonStr);
@@ -268,6 +279,7 @@ const createApp = () => {
     }
   };
 
+  // 각종 DOM 이벤트 리스너를 초기화하는 함수
   const initializeEventListeners = () => {
     document
       .getElementById("add-data")
@@ -306,13 +318,14 @@ const createApp = () => {
     const idInput = document.getElementById("data-id");
     const valueInput = document.getElementById("data-value");
 
-    function checkAddBtnActive() {
+    // 입력값에 따라 추가 버튼 활성화 상태를 갱신하는 내부 함수
+    const checkAddBtnActive = () => {
       if (idInput.value.trim() !== "" && valueInput.value.trim() !== "") {
         addBtn.classList.add("active");
       } else {
         addBtn.classList.remove("active");
       }
-    }
+    };
 
     idInput.addEventListener("input", checkAddBtnActive);
     valueInput.addEventListener("input", checkAddBtnActive);
